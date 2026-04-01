@@ -3,775 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloodline RP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <title>BLOODLINE RP | Premium FiveM Roleplay</title>
     <style>
-        /* --- CORE STYLES & VARIABLES --- */
+        /* CSS STYLES */
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700&display=swap');
+
         :root {
-            --blood-red: #8a0303;
-            --bright-red: #da0000;
-            --text-muted: #b0b0b0;
-            --panel-bg: rgba(15, 15, 15, 0.9);
-            --bg-color: #050505;
+            --bg-color: #030303;
+            --text-main: #cccccc;
+            --accent-red: #ba0000;
+            --accent-red-hover: #ff1a1a;
+            --accent-white: #ffffff;
+            --panel-bg: linear-gradient(145deg, rgba(15, 10, 10, 0.95), rgba(5, 2, 2, 0.98));
+            --border-style: 2px solid var(--accent-red);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-red-hover); }
 
-        body {
-            font-family: 'Inter', sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body, html {
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
-            color: #fff;
+            color: var(--text-main);
             overflow-x: hidden;
-            /* Optional: Add a dark, gritty background image here */
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('rose.png');
+        }
+
+        /* Dynamic Background Layer using your rose image */
+        #bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000000;
             background-size: cover;
+            background-position: center;
             background-attachment: fixed;
+            transition: background-image 1s ease-in-out;
+            z-index: -2;
+            background-image: url('rose.jpg');
         }
 
-        /* --- SIDEBAR --- */
-        .sidebar {
-            width: 260px;
-            background: rgba(0, 0, 0, 0.95);
-            border-right: 1px solid var(--blood-red);
-            height: 100vh;
-            position: fixed;
-            overflow-y: auto;
-            padding: 2rem 1.5rem;
+        /* Overlay - Lightened slightly in the center to show the rose details */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(10, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.98) 100%); 
+            z-index: -1;
         }
 
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb { background: var(--blood-red); }
+        h1, h2, h3, h4, summary { font-family: 'Bebas Neue', sans-serif; font-weight: normal; color: var(--accent-white); letter-spacing: 2px;}
+        p { line-height: 1.6; margin-bottom: 1rem; font-size: 1rem; }
 
-        .logo {
-            font-size: 1.8rem;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-            font-family: 'Orbitron', sans-serif;
+        /* Navigation */
+        nav {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.98), rgba(0,0,0,0.8));
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--accent-red);
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 10px 30px rgba(186, 0, 0, 0.1);
         }
-
-        .logo span { color: var(--bright-red); }
-
-        .nav-category {
-            color: var(--blood-red);
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin: 1.5rem 0 0.5rem 0;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .sidebar ul { list-style: none; }
         
-        .sidebar ul li a {
-            display: block;
-            padding: 8px 12px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            border-radius: 4px;
-            margin-bottom: 2px;
-            transition: all 0.2s ease;
+        .logo { font-size: 2.5rem; font-family: 'Bebas Neue', sans-serif; color: var(--accent-white); text-shadow: 3px 3px 0px rgba(0,0,0,0.8), 0 0 15px rgba(186, 0, 0, 0.6); letter-spacing: 3px; cursor: pointer; transition: transform 0.3s;}
+        .logo:hover { transform: scale(1.02); }
+        .logo span { color: var(--accent-red); }
+
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links button {
+            background: none; border: none;
+            color: var(--text-main);
+            font-size: 1.1rem; font-family: 'Bebas Neue', sans-serif;
+            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 5px 10px;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links button:hover, .nav-links button.active { 
+            color: var(--accent-red); 
+            border-bottom: 2px solid var(--accent-red);
+            text-shadow: 0 0 12px rgba(186, 0, 0, 0.8);
+            transform: translateY(-2px);
         }
 
-        .sidebar ul li a:hover, .sidebar ul li a.active {
-            background: rgba(158, 0, 0, 0.2);
-            color: #fff;
-            border-left: 3px solid var(--bright-red);
+        /* Server Status Badge */
+        .server-status {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(10,0,0,0.8); padding: 8px 15px; border: 1px solid var(--accent-red); border-radius: 4px;
+            font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px;
+            box-shadow: inset 0 0 10px rgba(186,0,0,0.2);
+            color: var(--accent-white);
         }
+        .status-dot { width: 10px; height: 10px; background-color: #ba0000; border-radius: 50%; box-shadow: 0 0 10px #ba0000; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* --- MAIN CONTENT --- */
-        .main-content {
-            margin-left: 260px;
-            width: calc(100% - 260px);
-            padding: 4rem 10%;
-        }
+        /* Page Container */
+        .container { max-width: 1300px; margin: 3rem auto; padding: 0 1rem; min-height: 75vh; }
 
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
+        /* Sections */
+        .page-section { display: none; animation: fadeIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; opacity: 0; transform: translateY(15px); }
+        .page-section.active { display: block; }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        .page.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- SIMPLIFIED UI COMPONENTS --- */
+        /* Panel Design */
         .panel {
             background: var(--panel-bg);
-            border: 1px solid rgba(158, 0, 0, 0.3);
-            padding: 2.5rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(5px);
-        }
-
-        .page-header {
-            color: var(--bright-red);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--blood-red);
-            padding-bottom: 10px;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .section-title {
-            color: #fff;
-            font-size: 1.2rem;
-            margin: 1.5rem 0 1rem 0;
-            border-left: 3px solid var(--bright-red);
-            padding-left: 10px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: var(--blood-red);
-            color: #fff;
-            text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
-            border-radius: 3px;
-        }
-
-        .btn:hover { background: var(--bright-red); }
-
-        /* Clean Lists for Rules */
-        .rule-list { list-style: none; }
-        .rule-list li {
-            margin-bottom: 10px;
-            padding-left: 20px;
+            border: var(--border-style);
+            padding: 3rem; border-radius: 5px; margin-bottom: 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), inset 0 0 60px rgba(0,0,0,0.8);
             position: relative;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-        .rule-list li::before {
-            content: "•";
-            color: var(--bright-red);
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-        .rule-list strong { color: #fff; }
-
-        /* Forms */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group.full-width { grid-column: span 2; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: #fff; font-size: 0.9rem; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 10px;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid #333;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            border-radius: 4px;
-            transition: border-color 0.2s;
-        }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--blood-red);
         }
         
-        @media (max-width: 900px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group.full-width { grid-column: span 1; }
-            .sidebar { width: 200px; }
-            .main-content { margin-left: 200px; width: calc(100% - 200px); padding: 2rem 5%; }
-        }
+        .panel-header { text-align: center; margin-bottom: 3rem; border-bottom: 1px solid #333; padding-bottom: 1rem;}
+        .panel-header h2 { font-size: 3.5rem; color: var(--accent-white); text-shadow: 3px 3px 5px rgba(0,0,0,0.9); letter-spacing: 4px;}
 
-        /* Gallery Cards */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+        /* Home Page */
+        .hero { text-align: center; margin-bottom: 5rem; margin-top: 4rem; }
+        .hero h1 { font-size: 6rem; margin-bottom: 1rem; color: var(--accent-white); text-shadow: 4px 4px 10px #000, 0 0 40px rgba(186, 0, 0, 0.8); letter-spacing: 6px;}
+        .hero p { font-size: 1.4rem; max-width: 900px; margin: 0 auto 3rem auto; text-shadow: 2px 2px 5px #000; font-weight: 300; color: #ddd;}
+        
+        .btn {
+            background: var(--accent-red); color: #fff;
+            padding: 15px 40px; font-size: 1.5rem; font-family: 'Bebas Neue', sans-serif;
+            border: 2px solid #000; cursor: pointer; text-transform: uppercase;
+            box-shadow: 5px 5px 0px #000; transition: all 0.2s ease;
+            letter-spacing: 3px; 
         }
-        .gallery-card {
-            background: var(--panel-bg);
-            border: 1px solid rgba(158, 0, 0, 0.3);
-            border-radius: 4px;
-            padding: 1rem;
-            text-align: center;
-            backdrop-filter: blur(5px);
-        }
-        .gallery-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-            background: #333;
-        }
-        .gallery-card h4 {
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-        .gallery-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .btn:hover { background: var(--accent-white); color: #000; transform: translateY(-4px); box-shadow: 8px 8px 15px rgba(186, 0, 0, 0.4), 8px 8px 0px #000; }
+        .btn:active { transform: translateY(2px); box-shadow: 2px 2px 0px #000; }
 
+        /* Features & Factions Grid */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+        .card { 
+            text-align: center; padding: 2.5rem; 
+            background: linear-gradient(180deg, rgba(20,10,10,0.9) 0%, rgba(5,5,5,0.9) 100%); 
+            border: 1px solid #222; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: #333; transition: all 0.3s ease;
+        }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent-red); box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 20px rgba(186, 0, 0, 0.2); }
+        .card:hover::before { height: 8px; background: var(--accent-red); }
+        .card h3 { margin-bottom: 1rem; font-size: 2rem; color: var(--accent-white); text-shadow: 2px 2px 4px rgba(0,0,0,0.8);}
+
+        /* Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1rem; }
+        .gallery-item { width: 100%; height: 350px; object-fit: cover; border: 2px solid #222; transition: all 0.4s ease; cursor: pointer; filter: grayscale(40%) contrast(120%);}
+        .gallery-item:hover { transform: scale(1.03); filter: grayscale(0%) contrast(110%); border-color: var(--accent-red); z-index: 10; position: relative; box-shadow: 0 15px 40px rgba(186, 0, 0, 0.3);}
+
+        /* Rules Page */
+        .rules-container { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .rule-category { background: rgba(10,5,5,0.8); padding: 2rem; border-left: 4px solid var(--accent-red); margin-bottom: 1rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);}
+        .rule-item { margin-bottom: 1.5rem; }
+        .rule-item h4 { color: var(--accent-white); font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; letter-spacing: 1px; text-shadow: 1px 1px 2px #000;}
+        
+        /* Collapsible Details Styling */
+        details { width: 100%; }
+        summary { font-size: 2.2rem; color: var(--accent-white); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none; transition: all 0.3s ease; text-shadow: 2px 2px 4px #000;}
+        summary::-webkit-details-marker { display: none; }
+        summary:hover { color: var(--accent-red); text-shadow: 0 0 15px rgba(186, 0, 0, 0.5); transform: translateX(5px);}
+        summary::after { content: '+'; font-size: 2rem; color: var(--accent-red); font-family: 'Montserrat', sans-serif; transition: transform 0.3s; }
+        details[open] summary::after { content: '-'; transform: rotate(180deg); }
+        .details-content { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed #444; animation: dropDown 0.4s ease-out; }
+        @keyframes dropDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Penal Code Tables */
+        .penal-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: rgba(5,0,0,0.9); box-shadow: 0 5px 15px rgba(0,0,0,0.8);}
+        .penal-table th, .penal-table td { border: 1px solid #333; padding: 14px; text-align: left; }
+        .penal-table th { background: linear-gradient(180deg, #5c0000, #330000); color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; text-shadow: 1px 1px 2px #000;}
+        .penal-table td { font-size: 0.95rem; color: var(--text-main); font-weight: 300;}
+        .penal-table tr:nth-child(even) { background: rgba(15,15,15,0.7); }
+        .penal-table tr:hover { background: rgba(186, 0, 0, 0.15); transition: background 0.2s ease;}
+        .penal-highlight { color: var(--accent-red-hover); font-weight: bold; }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(10, 5, 5, 0.95)); text-align: center; padding: 4rem 2rem;
+            border-top: 3px solid var(--accent-red); margin-top: auto; position: relative; z-index: 10;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 4rem; }
+            .penal-table, .penal-table tbody, .penal-table tr, .penal-table td, .penal-table th { display: block; width: 100%; }
+            .penal-table tr { margin-bottom: 1rem; border-bottom: 2px solid var(--accent-red); }
+            .penal-table td { text-align: right; padding-left: 50%; position: relative; }
+            .penal-table td::before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; color: var(--accent-white); font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 1px;}
+            .penal-table th { display: none; }
+        }
     </style>
 </head>
 <body>
+    <div id="bg-layer"></div>
+    <div class="overlay"></div>
 
-    <nav class="sidebar">
-        <div class="logo">Bloodline <span>RP</span></div>
-        
-        <div class="nav-category">CORE</div>
-        <ul>
-            <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
-            <li><a href="#" class="nav-link" data-target="features">Features</a></li>
-            <li><a href="#" class="nav-link" data-target="news">News</a></li>
-            <li><a href="#" class="nav-link" data-target="gallery">Gallery</a></li>
-            <li><a href="#" class="nav-link" data-target="faq">F.A.Q</a></li>
-        </ul>
-
-        <div class="nav-category">SERVER RULES</div>
-        <ul>
-            <li><a href="#" class="nav-link" data-target="rules-general">Conduct & Standards</a></li>
-            <li><a href="#" class="nav-link" data-target="rules-violations">Violations & VOL</a></li>
-            <li><a href="#" class="nav-link" data-target="rules-crim">Criminal & Gangs</a></li>
-            <li><a href="#" class="nav-link" data-target="rules-gov">LEO, EMS & DOJ</a></li>
-            <li><a href="#" class="nav-link" data-target="rules-misc">Business & Staff</a></li>
-        </ul>
-
-        <div class="nav-category">APPLICATIONS</div>
-        <ul>
-            <li><a href="#" class="nav-link" data-target="app-whitelist">Whitelist</a></li>
-            <li><a href="#" class="nav-link" data-target="app-police">LSPD Application</a></li>
-            <li><a href="#" class="nav-link" data-target="app-ems">EMS Application</a></li>
-            <li><a href="#" class="nav-link" data-target="app-business">Business Application</a></li>
-            <li><a href="#" class="nav-link" data-target="app-staff">Staff Application</a></li>
-        </ul>
+    <nav>
+        <div class="logo" onclick="switchPage('home')">BLOODLINE <span>RP</span></div>
+        <div class="nav-links">
+            <button class="active" onclick="switchPage('home')" data-page="home">Home</button>
+            <button onclick="switchPage('lore')" data-page="lore">The City</button>
+            <button onclick="switchPage('factions')" data-page="factions">Factions</button>
+            <button onclick="switchPage('rules')" data-page="rules">Rules & Laws</button>
+            <button onclick="switchPage('gallery')" data-page="gallery">Gallery</button>
+            <button onclick="switchPage('trailer')" data-page="trailer" style="color: var(--accent-red);">Trailer</button>
+        </div>
+        <div class="server-status">
+            <div class="status-dot"></div>
+            CITY AWAKE: 112/128
+        </div>
     </nav>
 
-    <main class="main-content">
-
-        <section id="home" class="page active">
-            <div class="panel" style="text-align: center; padding: 6rem 2rem; background: transparent; border: none; backdrop-filter: none;">
-                <h1 style="font-size: 4rem; color: var(--bright-red); margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255,0,0,0.3); font-family: 'Orbitron', sans-serif;">BLOODLINE RP</h1>
-                <p style="font-size: 1.2rem; color: #fff; margin-bottom: 2rem; text-shadow: 1px 1px 5px #000;">The streets run red. Only the strong survive.</p>
-                <a href="#" class="btn" onclick="switchPage('app-whitelist')">Apply for Whitelist</a>
+    <div class="container">
+        <div id="home" class="page-section active">
+            <div class="hero">
+                <h1>BLEED FOR YOUR LEGACY</h1>
+                <p>Enter the gritty, unforgiving streets of Los Santos in the most immersive, story-driven FiveM roleplay experience available. Will you build an empire, protect the innocent, or die trying?</p>
+                <button class="btn" onclick="switchPage('trailer')">Watch Trailer</button>
             </div>
-        </section>
 
-        <section id="features" class="page">
-            <h1 class="page-header">Features</h1>
-            <div class="panel">
-                <ul class="rule-list">
-                    <li><strong>Custom Scripts:</strong> Highly optimized framework running at 60+ FPS.</li>
-                    <li><strong>In-Depth Criminal Systems:</strong> Multi-stage heists, drug processing, and black markets.</li>
-                    <li><strong>Civilian Life:</strong> Robust economy, player-owned real estate, and immersive jobs.</li>
-                    <li><strong>Advanced Medical:</strong> Complex injury system requiring realistic EMS roleplay.</li>
-                </ul>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Deep Criminal Underworld</h3>
+                    <p>Execute multi-stage heists, synthesize narcotics in hidden labs, launder dirty money, and fight for turf in a brutal, player-driven gang warfare system.</p>
+                </div>
+                <div class="card">
+                    <h3>Hardcore Economy</h3>
+                    <p>Every dollar counts. Import bespoke vehicles, purchase player-owned businesses, corner the underground weapons market, and build your wealth from the ground up.</p>
+                </div>
+                <div class="card">
+                    <h3>Dynamic Justice System</h3>
+                    <p>Join the LSPD or BCSO. Conduct deep undercover investigations, execute SWAT raids, and experience a fully functional DOJ, courtroom, and Bolingbroke Penitentiary system.</p>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section id="news" class="page">
-            <h1 class="page-header">Server News</h1>
+        <div id="lore" class="page-section">
             <div class="panel">
-                <h3 style="color: #fff;">Season 3 Wipe & Update</h3>
-                <p style="color: var(--bright-red); font-size: 0.8rem; margin-bottom: 1rem;">March 2026</p>
-                <p style="color: var(--text-muted);">The city has been completely wiped. New gang territories have been established, and the LSPD has received updated vehicles and uniforms.</p>
-            </div>
-        </section>
-
-        <section id="gallery" class="page">
-            <h1 class="page-header">Gallery</h1>
-            <div class="panel">
-                <div class="gallery-grid">
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+1" alt="Image 1">
-                        <h4>City Streets</h4>
-                        <p>The heart of Los Santos pulses with life.</p>
+                <div class="panel-header">
+                    <h2>The Streets of San Andreas</h2>
+                </div>
+                <h3 style="font-size: 2.5rem; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; color: var(--accent-red);">A City Divided</h3>
+                <p>Los Santos is a metropolis of extreme contrasts. From the glittering high-rises of Rockford Hills to the gang-infested cul-de-sacs of Davis, opportunity and death walk hand in hand. The Mayor's office promises crackdowns, but corruption bleeds through the very foundations of the city.</p>
+                <p>North of the city limits lies Blaine County—a sprawling, dust-choked expanse where outlaw motorcycle clubs, cartel runners, and rogue militias operate far from the prying eyes of the city police. In Bloodline RP, every alleyway has a story, and every territory has a price.</p>
+                
+                <h3 style="font-size: 2.5rem; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px; margin-top: 40px; color: var(--accent-red);">Districts of Interest</h3>
+                <div class="grid-3" style="gap: 1.5rem;">
+                    <div style="background: rgba(10,5,5,0.8); padding: 1.5rem; border: 1px solid #333; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);">
+                        <h4 style="font-size: 1.8rem; color: var(--accent-white); margin-bottom: 10px;">South Central LS</h4>
+                        <p>The beating heart of gang warfare. Davis, Strawberry, and Chamberlain Hills are controlled by ruthless street syndicates fighting over the booming narcotics trade.</p>
                     </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+2" alt="Image 2">
-                        <h4>Gang Territory</h4>
-                        <p>Claimed zones where only the bold survive.</p>
+                    <div style="background: rgba(10,5,5,0.8); padding: 1.5rem; border: 1px solid #333; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);">
+                        <h4 style="font-size: 1.8rem; color: var(--accent-white); margin-bottom: 10px;">Vinewood & Rockford</h4>
+                        <p>Where the elites play. High-end car dealerships, luxury clubs, and corporate espionage. The perfect place for a clean heist or a messy assassination.</p>
                     </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+3" alt="Image 3">
-                        <h4>Police Chase</h4>
-                        <p>High-speed pursuit through the city.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+4" alt="Image 4">
-                        <h4>Medical Emergency</h4>
-                        <p>EMS responding to a critical call.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+5" alt="Image 5">
-                        <h4>Business District</h4>
-                        <p>Shops and services bustling with activity.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+6" alt="Image 6">
-                        <h4>Nightlife</h4>
-                        <p>Clubs and bars under neon lights.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+7" alt="Image 7">
-                        <h4>Heist Scene</h4>
-                        <p>Intricate planning and execution.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+8" alt="Image 8">
-                        <h4>Courtroom Drama</h4>
-                        <p>Justice being served.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+9" alt="Image 9">
-                        <h4>Rural Outskirts</h4>
-                        <p>Escape the urban chaos.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+10" alt="Image 10">
-                        <h4>Vehicle Customization</h4>
-                        <p>Tuning shops at work.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+11" alt="Image 11">
-                        <h4>Gang Meeting</h4>
-                        <p>Strategic discussions in the shadows.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+12" alt="Image 12">
-                        <h4>LSPD Station</h4>
-                        <p>Law enforcement headquarters.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+13" alt="Image 13">
-                        <h4>Hospital Ward</h4>
-                        <p>Healing the wounded.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+14" alt="Image 14">
-                        <h4>Black Market</h4>
-                        <p>Underground dealings.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+15" alt="Image 15">
-                        <h4>Race Track</h4>
-                        <p>Adrenaline-fueled competitions.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+16" alt="Image 16">
-                        <h4>Beachfront</h4>
-                        <p>Relaxation by the sea.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+17" alt="Image 17">
-                        <h4>Alleyway Ambush</h4>
-                        <p>Unexpected encounters.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+18" alt="Image 18">
-                        <h4>Luxury Mansion</h4>
-                        <p>Wealth and power.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+19" alt="Image 19">
-                        <h4>Construction Site</h4>
-                        <p>Building the future.</p>
-                    </div>
-                    <div class="gallery-card">
-                        <img src="https://via.placeholder.com/250x150/da0000/ffffff?text=Image+20" alt="Image 20">
-                        <h4>Community Event</h4>
-                        <p>Players coming together.</p>
+                    <div style="background: rgba(10,5,5,0.8); padding: 1.5rem; border: 1px solid #333; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);">
+                        <h4 style="font-size: 1.8rem; color: var(--accent-white); margin-bottom: 10px;">Sandy Shores</h4>
+                        <p>The unforgiving desert. A haven for those running from the law. Meth labs, illegal street racing, and brutal biker wars dominate the local economy.</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="faq" class="page">
-            <h1 class="page-header">F.A.Q.</h1>
+        <div id="factions" class="page-section">
             <div class="panel">
-                <h3 class="section-title">Is a mic required?</h3>
-                <p style="color: var(--text-muted);">Yes, high-quality voice communications are strictly required at all times.</p>
-                
-                <h3 class="section-title">Is the server free?</h3>
-                <p style="color: var(--text-muted);">Yes, it is 100% free to play. Queue skips are available for supporters.</p>
+                <div class="panel-header">
+                    <h2>Factions & Organizations</h2>
+                    <p style="color: #888;">Join an established enterprise or build your empire in the shadows.</p>
+                </div>
+                <div class="grid-3">
+                    <div class="card">
+                        <h3 style="color: #3b82f6;">Law Enforcement</h3>
+                        <p>LSPD, BCSO, and San Andreas State Police. Maintain the thin blue line. Conduct traffic stops, respond to major heists, and launch tactical raids.</p>
+                        <p style="margin-top: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;"><strong>Status:</strong> <span style="color: #2ecc71; text-shadow: 0 0 8px rgba(46, 204, 113, 0.6);">Actively Hiring</span></p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: var(--accent-red);">Cartels & Syndicates</h3>
+                        <p>Operate in the shadows. Control the weapon imports, run massive drug rings, order hits, and establish dominance over Los Santos.</p>
+                        <p style="margin-top: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;"><strong>Status:</strong> <span style="color: #e74c3c; text-shadow: 0 0 8px rgba(231, 76, 60, 0.6);">Invite Only / IC</span></p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: #e67e22;">Department of Health</h3>
+                        <p>Pillbox Medical. Be the lifeline of the city. Respond to brutal gang shootouts, perform complex surgeries, and issue medical licenses.</p>
+                        <p style="margin-top: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;"><strong>Status:</strong> <span style="color: #2ecc71; text-shadow: 0 0 8px rgba(46, 204, 113, 0.6);">Actively Hiring</span></p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: #9b59b6;">Business Moguls</h3>
+                        <p>Run nightclubs, mechanic shops, luxury car dealerships, or private security firms. Control the legal (and illegal) cash flow of the city.</p>
+                        <p style="margin-top: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;"><strong>Status:</strong> <span style="color: #f1c40f; text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);">Requires Proposal</span></p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: #f39c12;">Street Tuners</h3>
+                        <p>Rule the underground. Organize illegal street races, customize JDM and hypercars, run chop shops, and evade the high-speed pursuit units.</p>
+                        <p style="margin-top: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;"><strong>Status:</strong> <span style="color: #e74c3c; text-shadow: 0 0 8px rgba(231, 76, 60, 0.6);">In-City Discovery</span></p>
+                    </div>
+                    <div class="card">
+                        <h3 style="color: #bdc3c7;">Department of Justice</h3>
+                        <p>Lawyers, Judges, and District Attorneys. Prosecute the worst criminals or defend them to keep them on the streets. Law is a weapon here.</p>
+                        <p style="margin-top: 15px; font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem;"><strong>Status:</strong> <span style="color: #f1c40f; text-shadow: 0 0 8px rgba(241, 196, 15, 0.6);">Bar Exam Required</span></p>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section id="rules-general" class="page">
-            <h1 class="page-header">Conduct & Standards</h1>
+        <div id="gallery" class="page-section">
             <div class="panel">
-                <h3 class="section-title">General Conduct</h3>
-                <ul class="rule-list">
-                    <li>Treat all players and staff with respect.</li>
-                    <li>Harassment, hate speech, or slurs are zero-tolerance.</li>
-                    <li>No exploiting, cheating, or bug abuse.</li>
-                    <li>English in main RP channels unless RP-appropriate.</li>
-                    <li>Staff decisions are final (appeals available).</li>
-                </ul>
-
-                <h3 class="section-title">Roleplay Standards</h3>
-                <ul class="rule-list">
-                    <li>Stay in character at all times in RP areas.</li>
-                    <li>Use /me, /do, or server emotes properly.</li>
-                    <li>No breaking immersion unnecessarily.</li>
-                    <li>No OOC talk during active scenes.</li>
-                    <li>Characters must act realistically.</li>
-                </ul>
+                <div class="panel-header">
+                    <h2>Street Captures</h2>
+                    <p style="color: #888;">Moments from the chaos.</p>
+                </div>
+                <div class="gallery-grid">
+                    <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sports Car" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1533929736458-ca588d08c8be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Neon Street" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Police Lights" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1517672651691-24622a0fcb6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dark Alley" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cityscape Night" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1555626906-fcf10d6851b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Gun Range" class="gallery-item">
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section id="rules-violations" class="page">
-            <h1 class="page-header">Violations & Life Rules</h1>
+        <div id="rules" class="page-section">
             <div class="panel">
-                <h3 class="section-title">RP Violations</h3>
-                <ul class="rule-list">
-                    <li><strong>RDM</strong> – Killing without valid RP initiation.</li>
-                    <li><strong>VDM</strong> – Using vehicles as weapons without RP.</li>
-                    <li><strong>Powergaming</strong> – Unrealistic actions or forcing RP.</li>
-                    <li><strong>Metagaming</strong> – Using OOC info IC.</li>
-                    <li><strong>FailRP</strong> – Ignoring realistic outcomes.</li>
-                </ul>
-                <p style="margin-top: 10px; color: var(--bright-red); font-size: 0.9rem; margin-left: 20px;">* These result in warnings, strikes, or harsher penalties.</p>
+                <div class="panel-header">
+                    <h2>Server Rules & Penal Code</h2>
+                    <p style="color: #888;">OOC Guidelines and In-Character Laws. Ignorance is not an excuse.</p>
+                </div>
 
-                <h3 class="section-title">Value of Life (VOL)</h3>
-                <ul class="rule-list">
-                    <li>Your character values their life realistically.</li>
-                    <li>Fear roleplay when threatened.</li>
-                    <li>Outnumbered or outgunned scenarios require compliance.</li>
-                    <li>Escaping danger should be logical and believable.</li>
-                </ul>
+                <div class="rules-container">
+                    
+                    <div class="rule-category" style="border-left-color: #3b82f6;">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 2.5rem; color: #3b82f6; text-shadow: 1px 1px 2px #000;">General Roleplay (OOC)</h3>
+                        <div class="rule-item">
+                            <h4>1. Value of Life (NVL)</h4>
+                            <p>You must value your character's life at all times. If you are outnumbered or have a weapon drawn on you while unarmed, you must comply. Do not act like a fearless action hero.</p>
+                        </div>
+                        <div class="rule-item">
+                            <h4>2. Metagaming & Stream Sniping</h4>
+                            <p>Using out-of-character (OOC) information in-character (IC) is strictly banned. Watching a streamer playing on the server to find their location or plans will result in an immediate permanent ban.</p>
+                        </div>
+                        <div class="rule-item">
+                            <h4>3. Breaking Character</h4>
+                            <p>You must stay in character at all times. If there is a rule break or a bug, play through the scenario and report it on Discord later. Never use terms like "My game crashed" or "Press E" in voice chat.</p>
+                        </div>
+                        <div class="rule-item">
+                            <h4>4. Crime & Combat Rules</h4>
+                            <p><strong>RDM/VDM:</strong> Killing another player without proper roleplay initiation or using a vehicle as a weapon is prohibited. You must have a verbal exchange before shooting.<br>
+                            <strong>Safe Zones:</strong> Pillbox Medical and spawn locations. Committing violent crimes or taking hostages here is forbidden.</p>
+                        </div>
+                    </div>
 
-                <h3 class="section-title">New Life Rule (NLR)</h3>
-                <ul class="rule-list">
-                    <li>After being downed or respawned, you forget the event.</li>
-                    <li>No returning to the same scene.</li>
-                    <li>No revenge or continuation without staff approval.</li>
-                </ul>
+                    <div style="text-align: center; margin: 3rem 0 1rem 0;">
+                        <h2 style="font-size: 3rem; color: var(--accent-red); text-shadow: 2px 2px 5px #000;">San Andreas Penal Code</h2>
+                        <p style="color: #888;">Enforced by the LSPD, BCSO, and SASP.</p>
+                    </div>
+
+                    <div class="rule-category">
+                        <details>
+                            <summary>I. Crimes Against Persons</summary>
+                            <div class="details-content">
+                                <table class="penal-table">
+                                    <thead><tr><th>Offense</th><th>Description</th><th>Fine</th><th>Sentence (Months)</th></tr></thead>
+                                    <tbody>
+                                        <tr><td data-label="Offense">Murder (1st Degree)</td><td data-label="Description">Unlawful, premeditated killing of a civilian</td><td data-label="Fine" class="penal-highlight">$15,000</td><td data-label="Sentence" class="penal-highlight">60</td></tr>
+                                        <tr><td data-label="Offense">Attempted Murder of LEO</td><td data-label="Description">Shooting or severely injuring an officer</td><td data-label="Fine">$10,000</td><td data-label="Sentence" class="penal-highlight">45</td></tr>
+                                        <tr><td data-label="Offense">Manslaughter</td><td data-label="Description">Accidental killing due to recklessness</td><td data-label="Fine">$5,000</td><td data-label="Sentence">25</td></tr>
+                                        <tr><td data-label="Offense">Assault with a Deadly Weapon</td><td data-label="Description">Attack with firearm, knife, or vehicle</td><td data-label="Fine">$3,500</td><td data-label="Sentence">15</td></tr>
+                                        <tr><td data-label="Offense">Kidnapping</td><td data-label="Description">Abduction or unlawful restraint / taking hostage</td><td data-label="Fine">$5,000</td><td data-label="Sentence">20</td></tr>
+                                        <tr><td data-label="Offense">Simple Assault</td><td data-label="Description">Unarmed physical altercation</td><td data-label="Fine">$500</td><td data-label="Sentence">5</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-category">
+                        <details>
+                            <summary>II. Crimes Against Property & Heists</summary>
+                            <div class="details-content">
+                                <table class="penal-table">
+                                    <thead><tr><th>Offense</th><th>Description</th><th>Fine</th><th>Sentence (Months)</th></tr></thead>
+                                    <tbody>
+                                        <tr><td data-label="Offense">Pacific Standard Robbery</td><td data-label="Description">Major vault heist</td><td data-label="Fine">$25,000</td><td data-label="Sentence">50</td></tr>
+                                        <tr><td data-label="Offense">Fleeca Bank Robbery</td><td data-label="Description">Local branch robbery</td><td data-label="Fine">$8,000</td><td data-label="Sentence">25</td></tr>
+                                        <tr><td data-label="Offense">Vangelico Jewelry Heist</td><td data-label="Description">Smash and grab jewelry robbery</td><td data-label="Fine">$12,000</td><td data-label="Sentence">30</td></tr>
+                                        <tr><td data-label="Offense">Grand Theft Auto</td><td data-label="Description">Theft of a motor vehicle</td><td data-label="Fine">$2,000</td><td data-label="Sentence">10</td></tr>
+                                        <tr><td data-label="Offense">Armed Robbery</td><td data-label="Description">Robbing a store or person with a weapon</td><td data-label="Fine">$3,000</td><td data-label="Sentence">15</td></tr>
+                                        <tr><td data-label="Offense">Burglary</td><td data-label="Description">Breaking into a residential property</td><td data-label="Fine">$1,500</td><td data-label="Sentence">10</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-category">
+                        <details>
+                            <summary>III. Narcotics & Firearms</summary>
+                            <div class="details-content">
+                                <table class="penal-table">
+                                    <thead><tr><th>Offense</th><th>Description</th><th>Fine</th><th>Sentence (Months)</th></tr></thead>
+                                    <tbody>
+                                        <tr><td data-label="Offense">Drug Trafficking</td><td data-label="Description">Possession of 50+ units of narcotics</td><td data-label="Fine">$8,000</td><td data-label="Sentence">20</td></tr>
+                                        <tr><td data-label="Offense">Possession of Narcotics</td><td data-label="Description">Possession of &lt; 50 units of illegal drugs</td><td data-label="Fine">$1,000</td><td data-label="Sentence">5</td></tr>
+                                        <tr><td data-label="Offense">Possession of Class 2 Firearm</td><td data-label="Description">Illegal SMG, Assault Rifle, or Shotgun</td><td data-label="Fine">$5,000</td><td data-label="Sentence">15</td></tr>
+                                        <tr><td data-label="Offense">Possession of Class 1 Firearm</td><td data-label="Description">Unlicensed pistol</td><td data-label="Fine">$1,500</td><td data-label="Sentence">5</td></tr>
+                                        <tr><td data-label="Offense">Brandishing a Firearm</td><td data-label="Description">Drawing a weapon in a threatening manner</td><td data-label="Fine">$1,000</td><td data-label="Sentence">5</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </div>
+
+                    <div class="rule-category">
+                        <details>
+                            <summary>IV. Traffic & Public Order</summary>
+                            <div class="details-content">
+                                <table class="penal-table">
+                                    <thead><tr><th>Offense</th><th>Description</th><th>Fine</th><th>Sentence (Months)</th></tr></thead>
+                                    <tbody>
+                                        <tr><td data-label="Offense">Evading Arrest (Felony)</td><td data-label="Description">Fleeing police in a vehicle</td><td data-label="Fine">$3,500</td><td data-label="Sentence">15</td></tr>
+                                        <tr><td data-label="Offense">Street Racing</td><td data-label="Description">Participating in an illegal speed contest</td><td data-label="Fine">$2,500</td><td data-label="Sentence">10</td></tr>
+                                        <tr><td data-label="Offense">Reckless Driving</td><td data-label="Description">Driving with blatant disregard for safety</td><td data-label="Fine">$1,000</td><td data-label="Sentence">0</td></tr>
+                                        <tr><td data-label="Offense">Resisting Arrest</td><td data-label="Description">Physical refusal to be detained</td><td data-label="Fine">$1,500</td><td data-label="Sentence">5</td></tr>
+                                        <tr><td data-label="Offense">Disturbing the Peace</td><td data-label="Description">Public nuisance or shouting</td><td data-label="Fine">$500</td><td data-label="Sentence">0</td></tr>
+                                    </tbody>
+                                </table>
+                                
+                                <div style="margin-top: 2rem; padding: 1rem; background: rgba(186,0,0,0.1); border-left: 3px solid var(--accent-red);">
+                                    <h4 style="color: var(--accent-white); font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; margin-bottom: 0.5rem;">Bolingbroke Penitentiary Guidelines</h4>
+                                    <p style="color: #aaa; margin-bottom: 0;"><strong>Time Conversion:</strong> 1 In-Character Month = 1 Real-World Minute.<br>
+                                    All fines must be billed via the MDT before the suspect is sent to Bolingbroke.</p>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section id="rules-crim" class="page">
-            <h1 class="page-header">Criminal & Gang Rules</h1>
+        <div id="trailer" class="page-section">
             <div class="panel">
-                <h3 class="section-title">Criminal Roleplay</h3>
-                <ul class="rule-list">
-                    <li>Crimes require RP buildup and intent.</li>
-                    <li>No random shootouts or robberies.</li>
-                    <li>Initiation must be clear and verbal.</li>
-                    <li>Gang wars require staff approval.</li>
-                    <li>Drive-bys are restricted / disallowed.</li>
-                    <li>Perma-death may be enforced for serious outcomes.</li>
-                </ul>
+                <div class="panel-header">
+                    <h2>Cinematic Trailer</h2>
+                    <p style="color: #888;">Welcome to Los Santos.</p>
+                </div>
 
-                <h3 class="section-title">Gangs & Cartels</h3>
-                <ul class="rule-list">
-                    <li>Staff approval required to form a gang.</li>
-                    <li>Member limits enforced.</li>
-                    <li>Territories assigned by staff.</li>
-                    <li>Alliances and wars must be RP-approved.</li>
-                    <li>Rule violations can result in disbandment.</li>
-                </ul>
+                <div style="border: 2px solid var(--accent-red); box-shadow: 0 10px 40px rgba(186,0,0,0.2); overflow: hidden; border-radius: 4px;">
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/PvmXBUbQu_Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block; background: #000;"></iframe>
+                </div>
+
+                <div style="margin-top: 3rem; text-align: center;">
+                    <h3 style="font-size: 3rem; color: var(--accent-white); margin-bottom: 1.5rem; text-shadow: 2px 2px 5px #000;">Claim Your Turf</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">The streets don't forgive, and they don't forget. Whether you're flying under the radar or painting the town red, your story begins here. Join the Discord to get whitelisted.</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn" onclick="window.location.href='https://discord.gg/hj2T25vVq6';">Join Discord</button>
+                        <button class="btn" style="background: #fff; color: #000;" onclick="alert('Connect via FiveM: connect play.bloodlinerp.com');">Connect to Server</button>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section id="rules-gov" class="page">
-            <h1 class="page-header">Government & Medical</h1>
-            <div class="panel">
-                <h3 class="section-title">Law Enforcement</h3>
-                <ul class="rule-list">
-                    <li>Escalation before force.</li>
-                    <li>No power abuse or tunnel vision.</li>
-                    <li>Bodycams always active.</li>
-                    <li>Corruption RP requires approval.</li>
-                    <li>DOJ oversight applies.</li>
-                </ul>
+    </div>
 
-                <h3 class="section-title">EMS Rules</h3>
-                <ul class="rule-list">
-                    <li>Neutral party — no favoritism.</li>
-                    <li>No weapon usage.</li>
-                    <li>RP medical treatment properly.</li>
-                    <li>Cannot relay IC information unlawfully.</li>
-                </ul>
-
-                <h3 class="section-title">DOJ & Courts</h3>
-                <ul class="rule-list">
-                    <li>Judges and lawyers must remain impartial.</li>
-                    <li>Evidence must be obtained legally.</li>
-                    <li>Court RP should be professional.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="rules-misc" class="page">
-            <h1 class="page-header">Business & Administration</h1>
-            <div class="panel">
-                <h3 class="section-title">Business Roleplay</h3>
-                <ul class="rule-list">
-                    <li>Must serve an RP purpose.</li>
-                    <li>No money laundering without approval.</li>
-                    <li>Owners responsible for employees.</li>
-                    <li>Abuse may result in revocation.</li>
-                </ul>
-
-                <h3 class="section-title">Perma-Death</h3>
-                <ul class="rule-list">
-                    <li>Can be enforced by staff or story outcome.</li>
-                    <li>Requires serious RP.</li>
-                    <li>Character death must be respected.</li>
-                </ul>
-
-                <h3 class="section-title">Staff & Enforcement</h3>
-                <ul class="rule-list">
-                    <li>Staff may intervene to protect RP quality.</li>
-                    <li>Punishments scale by severity.</li>
-                    <li>Appeals handled via tickets.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="app-whitelist" class="page">
-            <h1 class="page-header">Whitelist App</h1>
-            <div class="panel">
-                <form onsubmit="submitForm(event)">
-                    <div class="form-group"><label>Discord Tag</label><input type="text" required></div>
-                    <div class="form-group"><label>Character Name</label><input type="text" required></div>
-                    <div class="form-group"><label>Character Backstory (Min 100 words)</label><textarea rows="5" required></textarea></div>
-                    <button type="submit" class="btn">Submit for Review</button>
-                </form>
-            </div>
-        </section>
-
-        <section id="app-police" class="page">
-            <h1 class="page-header">LSPD Application</h1>
-            <div class="panel">
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Please fill out all 15 questions thoroughly. Your application will be reviewed by LSPD High Command.</p>
-                <form onsubmit="submitForm(event)" class="form-grid">
-                    <div class="form-group"><label>1. Discord ID</label><input type="text" required></div>
-                    <div class="form-group"><label>2. Steam Hex / FiveM ID</label><input type="text" required></div>
-                    <div class="form-group"><label>3. In-Game Character Name</label><input type="text" required></div>
-                    <div class="form-group"><label>4. Real Life Age</label><input type="number" required></div>
-                    <div class="form-group"><label>5. Timezone</label><input type="text" required></div>
-                    <div class="form-group"><label>6. Hours Available Per Week</label><input type="text" required></div>
-                    
-                    <div class="form-group"><label>7. Previous LEO RP Experience?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    <div class="form-group"><label>8. If Yes, explain your experience</label><input type="text" placeholder="Server names, ranks, etc."></div>
-                    
-                    <div class="form-group full-width"><label>9. Why do you want to join the LSPD?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>10. Scenario: You pull over a vehicle for speeding. The driver is aggressive, yelling, and refuses to step out. What do you do?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>11. Scenario: You are first on scene to a Fleeca Bank robbery. You see two armed individuals inside. What are your immediate actions?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>12. Scenario: Your commanding officer is using excessive, non-RP force on a cuffed suspect. How do you handle this IC and OOC?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group"><label>13. Do you fully understand the Chain of Command?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group"><label>14. Can you record bodycam footage (e.g., Medal, Shadowplay)?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group full-width"><label>15. Do you agree to strictly avoid corruption unless explicitly approved by staff?</label>
-                        <select required><option value="yes">I Agree</option><option value="no">I Do Not Agree</option></select>
-                    </div>
-                    
-                    <div class="form-group full-width"><button type="submit" class="btn">Submit to High Command</button></div>
-                </form>
-            </div>
-        </section>
-
-        <section id="app-ems" class="page">
-            <h1 class="page-header">EMS Application</h1>
-            <div class="panel">
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Pillbox Medical is looking for dedicated roleplayers. Complete all 15 questions.</p>
-                <form onsubmit="submitForm(event)" class="form-grid">
-                    <div class="form-group"><label>1. Discord ID</label><input type="text" required></div>
-                    <div class="form-group"><label>2. Steam Hex / FiveM ID</label><input type="text" required></div>
-                    <div class="form-group"><label>3. In-Game Character Name</label><input type="text" required></div>
-                    <div class="form-group"><label>4. Real Life Age</label><input type="number" required></div>
-                    <div class="form-group"><label>5. Timezone</label><input type="text" required></div>
-                    <div class="form-group"><label>6. Hours Available Per Week</label><input type="text" required></div>
-                    
-                    <div class="form-group"><label>7. Previous Medical/EMS RP Experience?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    <div class="form-group"><label>8. If Yes, please detail your experience.</label><input type="text" placeholder="Servers, ranks, certifications, etc."></div>
-                    
-                    <div class="form-group full-width"><label>9. Why do you want to join the Department of Health / EMS?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>10. Scenario: You arrive at a gang shootout with multiple downed individuals. Active gunfire is still heard. What are your immediate actions regarding scene safety?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>11. Scenario: A patient is brought in unresponsive after a severe vehicle collision. Walk us through your initial medical assessment using /me and /do.</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>12. Scenario: A patient is being highly uncooperative and aggressive toward staff in the hospital lobby. How do you de-escalate the situation?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group"><label>13. Do you understand that EMS is a neutral party and cannot show gang favoritism?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group"><label>14. Are you comfortable typing out detailed medical roleplay rather than just pressing a button to revive?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group full-width"><label>15. Any additional comments or references?</label><textarea rows="2"></textarea></div>
-                    
-                    <div class="form-group full-width"><button type="submit" class="btn">Submit EMS Application</button></div>
-                </form>
-            </div>
-        </section>
-
-        <section id="app-business" class="page">
-            <h1 class="page-header">Business Proposal</h1>
-            <div class="panel">
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Want to run the city's economy? Pitch your business idea below. Answer all 8 questions.</p>
-                <form onsubmit="submitForm(event)" class="form-grid">
-                    <div class="form-group"><label>1. Discord ID</label><input type="text" required></div>
-                    <div class="form-group"><label>2. In-Game Character Name</label><input type="text" required></div>
-                    <div class="form-group"><label>3. Proposed Business Name</label><input type="text" required></div>
-                    <div class="form-group"><label>4. Business Type</label>
-                        <select required>
-                            <option value="mechanic">Mechanic / Tuning</option>
-                            <option value="food">Food & Beverage / Club</option>
-                            <option value="retail">Retail / Services</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group full-width"><label>5. Explain the core concept and RP purpose of your business.</label><textarea rows="4" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>6. Where will this business be located? (Provide specific building or area details)</label><textarea rows="2" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>7. How will your business generate roleplay for others (civilians, gangs, or police), rather than just being a way to make money?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>8. Do you require any custom scripts, mapping (MLOs), or custom items for this business to function? If yes, list them.</label><textarea rows="2" required></textarea></div>
-                    
-                    <div class="form-group full-width"><button type="submit" class="btn">Submit Business Proposal</button></div>
-                </form>
-            </div>
-        </section>
-
-        <section id="app-staff" class="page">
-            <h1 class="page-header">Staff Application</h1>
-            <div class="panel">
-                <p style="color: var(--text-muted); margin-bottom: 2rem;">Help us keep Bloodline RP running smoothly. Answer all 15 questions truthfully.</p>
-                <form onsubmit="submitForm(event)" class="form-grid">
-                    <div class="form-group"><label>1. Discord ID</label><input type="text" required></div>
-                    <div class="form-group"><label>2. Steam Hex / FiveM ID</label><input type="text" required></div>
-                    <div class="form-group"><label>3. Real Life Age</label><input type="number" required></div>
-                    <div class="form-group"><label>4. Timezone</label><input type="text" required></div>
-                    <div class="form-group"><label>5. Hours Available for Staff Duties (Per Week)</label><input type="text" required></div>
-                    
-                    <div class="form-group"><label>6. Previous Staff/Moderation Experience?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group full-width"><label>7. Why do you want to join the Bloodline RP Staff Team?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>8. What qualities make a good roleplay server administrator?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>9. Scenario: Two players are arguing aggressively in OOC chat over a perceived rule break. How do you intervene?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>10. Scenario: A player opens a ticket accusing a prominent gang leader of Metagaming, but their video evidence is inconclusive. How do you handle it?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group full-width"><label>11. Scenario: You witness a close friend breaking a minor server rule (e.g., FailRP). How do you address the situation?</label><textarea rows="3" required></textarea></div>
-                    
-                    <div class="form-group"><label>12. Are you able to remain impartial and separate your character from your staff duties?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group"><label>13. Do you have experience dealing with server logs and clipping/recording software?</label>
-                        <select required><option value="yes">Yes</option><option value="no">No</option></select>
-                    </div>
-                    
-                    <div class="form-group full-width"><label>14. How would you handle a situation where you don't know the answer to a player's support question?</label><textarea rows="2" required></textarea></div>
-                    
-                    <div class="form-group"><label>15. Do you understand that staff positions are a privilege and can be revoked at any time?</label>
-                        <select required><option value="yes">I Understand</option><option value="no">I Do Not Understand</option></select>
-                    </div>
-                    
-                    <div class="form-group full-width"><button type="submit" class="btn">Submit Staff Application</button></div>
-                </form>
-            </div>
-        </section>
-
-    </main>
+    <footer>
+        <h2 style="font-size: 3rem; margin-bottom: 1rem; font-family: 'Bebas Neue', sans-serif;">BLOODLINE <span style="color: var(--accent-red)">RP</span></h2>
+        <p>&copy; 2026 Bloodline RP Community. Built for FiveM.</p>
+        <p style="margin-top: 1rem; color: #444; font-size: 0.8rem;">Not affiliated with Rockstar North, Take-Two Interactive, or Grand Theft Auto V.</p>
+    </footer>
 
     <script>
-        // --- PAGE NAVIGATION ---
-        function switchPage(targetId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
+        // Set all pages to use the rose image
+        const backgrounds = {
+            'home': "url('rose.jpg')",
+            'lore': "url('rose.jpg')",
+            'factions': "url('rose.jpg')",
+            'rules': "url('rose.jpg')",
+            'gallery': "url('rose.jpg')",
+            'trailer': "url('rose.jpg')" 
+        };
 
-            // Remove active state from all sidebar links
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
+        // Simplified, robust page switching logic
+        function switchPage(pageId) {
+            // 1. Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => page.classList.remove('active'));
 
-            // Show the target page
-            const targetPage = document.getElementById(targetId);
+            // 2. Show the targeted page
+            const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
-            } else {
-                // If page doesn't exist yet, show an alert
-                alert("This section is currently under construction.");
-                document.getElementById('home').classList.add('active');
-                document.querySelector(`.nav-link[data-target="home"]`).classList.add('active');
-                return;
             }
 
-            // Highlight the corresponding sidebar link
-            const activeLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
+            // 3. Update active states on navigation buttons
+            const navButtons = document.querySelectorAll('.nav-links button');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-page') === pageId) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // 4. Update the background image safely
+            const bgLayer = document.getElementById('bg-layer');
+            if (bgLayer && backgrounds[pageId]) {
+                bgLayer.style.backgroundImage = backgrounds[pageId];
             }
             
-            // Scroll to top of the page smoothly
+            // 5. Scroll back to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Add click listeners to all sidebar links
-        document.addEventListener('DOMContentLoaded', () => {
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault(); 
-                    const targetId = link.getAttribute('data-target');
-                    switchPage(targetId);
-                });
-            });
-        });
-
-        // --- FORM SUBMISSION ---
-        function submitForm(event) {
-            event.preventDefault(); 
-            
-            // Placeholder for backend/webhook integration
-            alert('Application submitted successfully! Our staff will review it shortly.');
-            
-            // Reset the form fields
-            event.target.reset();
-        }
+        // Audio functionality removed
     </script>
 </body>
 </html>
