@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloodline RP Donation Shop</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-dF3sYeQpVwl6+KT0doL1Pcu7A5UpZkWfXdlvNiCpePBcNxq/MP6zRXywz2RUnU+n9VQ3LkqZaH6Yx1Bzv2Y1KQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body { background: #080808; color: #f0f0f0; }
+    .bg-hero { background: url('https://images.unsplash.com/photo-1542131596-90a9f55ca67f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') center/cover no-repeat; }
+    .card-shadow { box-shadow: 0 12px 35px rgba(0,0,0,0.5); }
+    .glass { background: rgba(15,15,15,0.7); backdrop-filter: blur(7px); }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-slideIn { animation: slideIn 0.3s ease; }
+  </style>
+</head>
+<body class="min-h-screen font-sans">
+  <header class="sticky top-0 z-50 bg-black/80 text-white border-b border-red-600 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4 flex-wrap">
+      <a href="index.html" class="flex items-center gap-3 text-2xl font-bold text-red-400">
+        <i class="fa-solid fa-fire"></i> Bloodline RP
+      </a>
+      <nav class="hidden md:flex items-center gap-4 text-sm font-medium">
+        <a href="index.html" class="hover:text-red-300">Back to Main</a>
+        <a href="#store" class="hover:text-red-300">Store</a>
+        <a href="https://discord.gg/hj2T25vVq6" target="_blank" class="hover:text-red-300">Discord</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button id="cartBtn" class="relative p-2 rounded-md border border-red-600 hover:bg-red-600/20 transition">
+          <i class="fa-solid fa-cart-shopping text-xl"></i>
+          <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center font-bold">0</span>
+        </button>
+        <a href="https://discord.gg/hj2T25vVq6" target="_blank" class="bg-blue-600 hover:bg-blue-500 px-3 py-2 rounded text-sm font-semibold">Discord</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto pb-16">
+    <section id="hero" class="bg-hero min-h-[60vh] flex items-center justify-center text-center px-4 py-12">
+      <div class="glass max-w-3xl rounded-2xl p-10 border border-red-600">
+        <h1 class="text-white text-4xl md:text-6xl font-extrabold tracking-wider">Bloodline RP Shop</h1>
+        <p class="mt-4 text-gray-200 text-lg md:text-xl">Boost your FiveM gameplay with exclusive VIP tiers, rare cars, and cosmetic items.</p>
+        <button onclick="scrollToSection('store')" class="mt-8 px-7 py-3 bg-red-500 hover:bg-red-400 rounded-xl font-bold text-white text-lg transition">Browse Items</button>
+      </div>
+    </section>
+
+    <section id="store" class="mt-10 px-4">
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold text-white mb-4 text-center">Filter By Category</h2>
+        <div class="flex flex-wrap justify-center gap-3 mb-6 text-sm">
+          <button class="filter-btn px-4 py-2 rounded-full border border-red-500 text-red-300 hover:bg-red-500/30 transition font-semibold" data-filter="All">All Items</button>
+          <button class="filter-btn px-4 py-2 rounded-full border border-red-500 text-red-300 hover:bg-red-500/30 transition font-semibold" data-filter="VIP">VIP Packages</button>
+          <button class="filter-btn px-4 py-2 rounded-full border border-red-500 text-red-300 hover:bg-red-500/30 transition font-semibold" data-filter="Vehicles">Vehicles</button>
+          <button class="filter-btn px-4 py-2 rounded-full border border-red-500 text-red-300 hover:bg-red-500/30 transition font-semibold" data-filter="Clothing">Cosmetics</button>
+          <button class="filter-btn px-4 py-2 rounded-full border border-red-500 text-red-300 hover:bg-red-500/30 transition font-semibold" data-filter="Weapons">Weapons</button>
+        </div>
+      </div>
+
+      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
+
+    <section class="mt-16 px-4 py-8">
+      <div class="glass p-8 rounded-xl border border-red-600 max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-4">About Our Shop</h2>
+        <ul class="text-gray-300 space-y-3 text-sm">
+          <li><strong>Secure Checkout:</strong> All purchases processed via Tebex secure payment gateway.</li>
+          <li><strong>Instant Delivery:</strong> Most items delivered within 20 minutes of purchase.</li>
+          <li><strong>Support:</strong> Questions? Join our Discord and contact support staff.</li>
+          <li><strong>Refund Policy:</strong> All sales final. Exceptions made per admin discretion.</li>
+          <li><strong>Disclaimer:</strong> Not affiliated with Rockstar Games or FiveM. Community-run server.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="mt-8 px-4 pb-8">
+      <div class="glass p-6 rounded-xl border border-red-600">
+        <h3 class="text-xl font-bold text-white mb-3">Terms & Conditions</h3>
+        <p class="text-gray-300 text-sm">By purchasing through this shop, you agree that all sales are final. In-game item delivery may take up to 20 minutes. Prices are in USD. Not affiliated with Rockstar or FiveM official; this is a community-run server. For refunds or disputes, contact our Discord support team.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-900 text-gray-200 py-8 border-t border-red-600 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-sm">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div>
+          <h4 class="text-red-400 font-bold mb-2">Quick Links</h4>
+          <ul class="space-y-1">
+            <li><a href="index.html" class="hover:text-red-300">Main Site</a></li>
+            <li><a href="#" class="hover:text-red-300">Terms of Service</a></li>
+            <li><a href="#" class="hover:text-red-300">Refund Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-red-400 font-bold mb-2">Community</h4>
+          <ul class="space-y-1">
+            <li><a href="https://discord.gg/hj2T25vVq6" class="hover:text-red-300">Discord Server</a></li>
+            <li><a href="#" class="hover:text-red-300">Support Ticket</a></li>
+            <li><a href="#" class="hover:text-red-300">Rules</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-red-400 font-bold mb-2">Legal</h4>
+          <p class="text-gray-400">&copy; 2026 Bloodline RP. Not affiliated with Rockstar North or FiveM official.</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-4 text-center text-gray-400">
+        <p>Bloodline RP Donation Shop &bull; Secure Payments via Tebex</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end md:items-center justify-center px-4 py-6">
+    <div class="bg-slate-950 rounded-xl w-full max-w-2xl max-h-[85vh] overflow-y-auto relative border border-red-600 card-shadow">
+      <button onclick="toggleCart()" class="sticky top-0 right-3 float-right text-red-300 hover:text-white p-3"> 
+        <i class="fa-solid fa-xmark text-xl"></i> 
+      </button>
+      <div class="p-6">
+        <h3 class="text-2xl font-semibold text-white mb-4">Shopping Cart</h3>
+        <div id="cartItems" class="mt-4 space-y-3"></div>
+        <div class="mt-6 border-t border-gray-700 pt-4">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-lg font-bold">Subtotal:</span>
+            <span id="cartSubtotal" class="text-lg font-bold text-gray-300">$0.00</span>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-sm text-gray-400">Tax (estimated):</span>
+            <span id="cartTax" class="text-sm text-gray-400">$0.00</span>
+          </div>
+          <div class="flex items-center justify-between bg-red-500/20 p-3 rounded-lg">
+            <span class="text-xl font-bold">Total:</span>
+            <span id="cartTotal" class="text-2xl font-bold text-red-400">$0.00</span>
+          </div>
+        </div>
+        <button onclick="checkout()" class="mt-6 w-full py-3 bg-emerald-500 hover:bg-emerald-400 rounded-lg font-bold text-black text-lg transition">Proceed to Checkout</button>
+        <p class="text-xs text-gray-400 text-center mt-3">Secure checkout via Tebex • All transactions encrypted</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      { id: 1, name: 'VIP Gold Tier', category: 'VIP', price: 19.99, desc: 'Monthly perks + priority queue', img: 'https://images.unsplash.com/photo-1528747045269-390fe33c19d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 2, name: 'VIP Diamond Tier', category: 'VIP', price: 39.99, desc: 'Gold perks + exclusive spawns', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 3, name: 'VIP Platinum Tier', category: 'VIP', price: 79.99, desc: 'All perks + custom commands', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 4, name: 'Elegance Supercar', category: 'Vehicles', price: 129.99, desc: 'High-speed supercar', img: 'https://images.unsplash.com/photo-1517949908112-6f29272ae44f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 5, name: 'Phantom Motorcycle', category: 'Vehicles', price: 79.99, desc: 'Fast bike with neon', img: 'https://images.unsplash.com/photo-1517949768931-4bd8c663e1e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 6, name: 'Luxe SUV', category: 'Vehicles', price: 99.99, desc: 'Premium family vehicle', img: 'https://images.unsplash.com/photo-1579818170900-c953055022c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 7, name: 'Bloodline Jacket', category: 'Clothing', price: 14.99, desc: 'Custom glowing jacket', img: 'https://images.unsplash.com/photo-1600180758895-96bb2c13d9f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 8, name: 'Shimmer Sneakers', category: 'Clothing', price: 9.99, desc: 'Glowing shoes', img: 'https://images.unsplash.com/photo-1528701800489-20e8b12fa7b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 9, name: 'Neon Hoodie', category: 'Clothing', price: 12.99, desc: 'Tech-wear hoodie', img: 'https://images.unsplash.com/photo-1556821552-5f63b9c9e1b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 10, name: 'Shadow Blade', category: 'Weapons', price: 12.99, desc: 'Rare melee weapon', img: 'https://images.unsplash.com/photo-1513451713350-dee890297c4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 11, name: 'Combat Rifle', category: 'Weapons', price: 26.99, desc: 'Precision rifle skin', img: 'https://images.unsplash.com/photo-1515591792478-0ba93d67ae0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+      { id: 12, name: 'Plasma Pistol', category: 'Weapons', price: 19.99, desc: 'Sci-fi weapon skin', img: 'https://images.unsplash.com/photo-1566961914551-87f50551b225?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' }
+    ];
+
+    const cart = [];
+    const productsGrid = document.getElementById('productsGrid');
+    const cartCount = document.getElementById('cartCount');
+
+    function renderProducts(filter = 'All') {
+      productsGrid.innerHTML = '';
+      const filtered = filter === 'All' ? products : products.filter(p => p.category === filter);
+      filtered.forEach(product => {
+        const card = document.createElement('article');
+        card.className = 'glass p-4 rounded-2xl border border-red-500 card-shadow transition hover:scale-105 hover:border-red-400 animate-slideIn';
+        card.innerHTML = `
+          <div class="relative overflow-hidden rounded-lg mb-3">
+            <img src="${product.img}" alt="${product.name}" class="h-48 w-full object-cover rounded-lg hover:scale-110 transition" loading="lazy" />
+            <div class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">${product.category}</div>
+          </div>
+          <div>
+            <h4 class="text-lg font-bold text-white">${product.name}</h4>
+            <p class="text-gray-300 text-sm mt-1">${product.desc}</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-red-400 font-bold text-xl">$${product.price.toFixed(2)}</span>
+              <button data-id="${product.id}" class="add-btn px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white text-sm transition font-semibold">
+                <i class="fa-solid fa-cart-plus"></i> Add
+              </button>
+            </div>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+      document.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => addToCart(Number(e.target.closest('button').dataset.id)));
+      });
+    }
+
+    function addToCart(productId) {
+      const item = products.find(p => p.id === productId);
+      if (!item) return;
+      const cartItem = cart.find(c => c.id === productId);
+      if (cartItem) {
+        cartItem.quantity += 1;
+      } else {
+        cart.push({ ...item, quantity: 1 });
+      }
+      updateCartCount();
+      showToast(`${item.name} added to cart!`);
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.className = 'fixed bottom-6 right-6 bg-black/80 text-white px-4 py-2 rounded-lg border border-red-500 animate-slideIn text-sm';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    function updateCartCount() {
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = totalCount;
+    }
+
+    function toggleCart() {
+      const modal = document.getElementById('cartModal');
+      modal.classList.toggle('hidden');
+      if (!modal.classList.contains('hidden')) renderCart();
+    }
+
+    function renderCart() {
+      const cartItems = document.getElementById('cartItems');
+      const cartSubtotal = document.getElementById('cartSubtotal');
+      const cartTax = document.getElementById('cartTax');
+      const cartTotal = document.getElementById('cartTotal');
+      
+      cartItems.innerHTML = '';
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="text-gray-300 text-center py-8">Your cart is empty. Start shopping!</p>';
+        cartSubtotal.textContent = '$0.00';
+        cartTax.textContent = '$0.00';
+        cartTotal.textContent = '$0.00';
+        return;
+      }
+
+      let subtotal = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        const row = document.createElement('div');
+        row.className = 'bg-gray-900/70 border border-gray-700 rounded-lg p-3 flex justify-between items-center animate-slideIn';
+        row.innerHTML = `
+          <div class="flex-1">
+            <h5 class="font-semibold text-white">${item.name}</h5>
+            <p class="text-gray-400 text-sm">${item.quantity} × $${item.price.toFixed(2)} = <span class="text-red-300 font-semibold">$${itemTotal.toFixed(2)}</span></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="changeQty(${item.id}, -1)" class="px-2 py-1 bg-red-500 hover:bg-red-400 rounded text-white transition text-sm">−</button>
+            <span class="w-8 text-center font-bold">${item.quantity}</span>
+            <button onclick="changeQty(${item.id}, 1)" class="px-2 py-1 bg-emerald-500 hover:bg-emerald-400 rounded text-white transition text-sm">+</button>
+          </div>
+        `;
+        cartItems.appendChild(row);
+      });
+
+      const tax = subtotal * 0.1;
+      const total = subtotal + tax;
+      cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+      cartTax.textContent = `$${tax.toFixed(2)}`;
+      cartTotal.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function changeQty(productId, delta) {
+      const item = cart.find(c => c.id === productId);
+      if (!item) return;
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        const idx = cart.findIndex(c => c.id === productId);
+        cart.splice(idx, 1);
+      }
+      updateCartCount();
+      renderCart();
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+      const tax = subtotal * 0.1;
+      const total = subtotal + tax;
+      alert(`Proceed to Tebex checkout\n\nSubtotal: $${subtotal.toFixed(2)}\nTax: $${tax.toFixed(2)}\nTotal: $${total.toFixed(2)}\n\nClick OK to open Tebex payment page.`);
+      window.open('https://tebex.io', '_blank');
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('bg-red-500', 'text-white'));
+        btn.classList.add('bg-red-500', 'text-white');
+        renderProducts(btn.dataset.filter);
+      });
+    });
+
+    document.getElementById('cartBtn').addEventListener('click', toggleCart);
+    document.getElementById('cartModal').addEventListener('click', (evt) => {
+      if (evt.target.id === 'cartModal') toggleCart();
+    });
+
+    function scrollToSection(id) {
+      const element = document.getElementById(id);
+      if (element) element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    renderProducts();
+    document.querySelector('[data-filter="All"]').classList.add('bg-red-500', 'text-white');
+  </script>
+</body>
+</html>
