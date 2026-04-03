@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLOODLINE RP | Premium FiveM Roleplay</title>
+    <title>BLOODLINE RP | Premium FiveM Roleplay & Store</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-dF3sYeQpVwl6+KT0doL1Pcu7A5UpZkWfXdlvNiCpePBcNxq/MP6zRXywz2RUnU+n9VQ3LkqZaH6Yx1Bzv2Y1KQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://plugin.tebex.io/tebex.js"></script>
+
     <style>
         /* CSS STYLES */
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap');
 
         :root {
             --bg-color: #030303;
@@ -34,7 +39,7 @@
             overflow-x: hidden;
         }
 
-        /* Dynamic Background Layer using your rose image */
+        /* Dynamic Background Layer */
         #bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000000;
@@ -43,10 +48,10 @@
             background-attachment: fixed;
             transition: background-image 1s ease-in-out;
             z-index: -2;
-            background-image: url('rose.jpg');
+            background-image: url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png');
         }
 
-        /* Overlay - Lightened slightly in the center to show the rose details */
+        /* Overlay */
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, rgba(10, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.98) 100%); 
@@ -66,13 +71,15 @@
             border-bottom: 3px solid var(--accent-red);
             position: sticky; top: 0; z-index: 100;
             box-shadow: 0 10px 30px rgba(186, 0, 0, 0.1);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .logo { font-size: 2.5rem; font-family: 'Bebas Neue', sans-serif; color: var(--accent-white); text-shadow: 3px 3px 0px rgba(0,0,0,0.8), 0 0 15px rgba(186, 0, 0, 0.6); letter-spacing: 3px; cursor: pointer; transition: transform 0.3s;}
         .logo:hover { transform: scale(1.02); }
         .logo span { color: var(--accent-red); }
 
-        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
         .nav-links button {
             background: none; border: none;
             color: var(--text-main);
@@ -87,6 +94,48 @@
             border-bottom: 2px solid var(--accent-red);
             text-shadow: 0 0 12px rgba(186, 0, 0, 0.8);
             transform: translateY(-2px);
+        }
+
+        /* Right Nav Actions */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Cart Button */
+        .cart-btn {
+            position: relative;
+            background: rgba(10,0,0,0.8);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-white);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-btn:hover {
+            background: rgba(186,0,0,0.2);
+            box-shadow: 0 0 15px rgba(186, 0, 0, 0.4);
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
         /* Server Status Badge */
@@ -120,23 +169,22 @@
         .panel-header { text-align: center; margin-bottom: 3rem; border-bottom: 1px solid #333; padding-bottom: 1rem;}
         .panel-header h2 { font-size: 3.5rem; color: var(--accent-white); text-shadow: 3px 3px 5px rgba(0,0,0,0.9); letter-spacing: 4px;}
 
-        /* Home Page */
-        .hero { text-align: center; margin-bottom: 5rem; margin-top: 4rem; }
-        .hero h1 { font-size: 6rem; margin-bottom: 1rem; color: var(--accent-white); text-shadow: 4px 4px 10px #000, 0 0 40px rgba(186, 0, 0, 0.8); letter-spacing: 6px;}
-        .hero p { font-size: 1.4rem; max-width: 900px; margin: 0 auto 3rem auto; text-shadow: 2px 2px 5px #000; font-weight: 300; color: #ddd;}
-        
+        /* Buttons */
         .btn {
             background: var(--accent-red); color: #fff;
             padding: 15px 40px; font-size: 1.5rem; font-family: 'Bebas Neue', sans-serif;
             border: 2px solid #000; cursor: pointer; text-transform: uppercase;
             box-shadow: 5px 5px 0px #000; transition: all 0.2s ease;
             letter-spacing: 3px; 
+            display: inline-block;
         }
         .btn:hover { background: var(--accent-white); color: #000; transform: translateY(-4px); box-shadow: 8px 8px 15px rgba(186, 0, 0, 0.4), 8px 8px 0px #000; }
         .btn:active { transform: translateY(2px); box-shadow: 2px 2px 0px #000; }
 
-        /* Features & Factions Grid */
+        /* Grids */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+        
         .card { 
             text-align: center; padding: 2.5rem; 
             background: linear-gradient(180deg, rgba(20,10,10,0.9) 0%, rgba(5,5,5,0.9) 100%); 
@@ -151,18 +199,183 @@
         .card:hover::before { height: 8px; background: var(--accent-red); }
         .card h3 { margin-bottom: 1rem; font-size: 2rem; color: var(--accent-white); text-shadow: 2px 2px 4px rgba(0,0,0,0.8);}
 
-        /* Gallery Grid */
+        /* -------------------------------------------
+           CLEAN STORE STYLES 
+           ------------------------------------------- */
+        
+        /* Minimalist Tab Filters */
+        .store-filters { 
+            display: flex; flex-wrap: wrap; justify-content: center; 
+            gap: 1rem; margin-bottom: 3rem; border-bottom: 1px solid #333; 
+            padding-bottom: 0.5rem;
+        }
+        .filter-btn {
+            background: transparent;
+            border: none;
+            color: #888;
+            padding: 10px 20px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            color: var(--accent-white);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -9px; /* Matches the padding-bottom of the container */
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-red);
+            box-shadow: 0 -2px 10px rgba(186,0,0,0.5);
+        }
+
+        /* Clean Product Cards */
+        .store-card { 
+            background: rgba(18, 18, 18, 0.7); 
+            border: 1px solid #2a2a2a; 
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        .store-card:hover { 
+            border-color: #555; 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        
+        .product-img-wrapper { position: relative; overflow: hidden; width: 100%; height: 160px; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .store-card:hover .product-img { transform: scale(1.08); }
+        
+        .product-badge {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(0,0,0,0.8); color: #fff;
+            padding: 4px 10px; font-size: 0.7rem; font-weight: bold; 
+            border-radius: 20px; border: 1px solid #444;
+            backdrop-filter: blur(4px); letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        .store-card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .store-card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+        }
+
+        /* Clean Add to Cart Button */
+        .store-add-btn {
+            background: transparent;
+            color: var(--accent-white);
+            border: 1px solid #555;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .store-add-btn:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            box-shadow: 0 0 15px rgba(186,0,0,0.4);
+        }
+
+        /* Cart Modal Styles */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            z-index: 1000; display: none;
+            justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show { display: flex; opacity: 1; }
+        .cart-modal {
+            background: var(--panel-bg);
+            border: var(--border-style);
+            width: 90%; max-width: 600px; max-height: 85vh;
+            border-radius: 8px; padding: 2rem;
+            position: relative; overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .cart-modal { transform: translateY(0); }
+        
+        .close-cart {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            background: none; border: none; color: var(--text-main);
+            font-size: 1.5rem; cursor: pointer; transition: color 0.2s;
+        }
+        .close-cart:hover { color: var(--accent-white); }
+        
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.6); border: 1px solid #333;
+            padding: 1rem; margin-bottom: 1rem; border-radius: 4px;
+        }
+        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn {
+            background: #222; border: 1px solid #444; color: #fff;
+            width: 30px; height: 30px; border-radius: 4px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .qty-btn:hover { background: var(--accent-red); border-color: var(--accent-red); }
+
+        .cart-summary {
+            border-top: 1px solid #333; margin-top: 1.5rem; padding-top: 1.5rem;
+        }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+        .summary-total { 
+            display: flex; justify-content: space-between; 
+            background: rgba(186,0,0,0.15); padding: 1rem; border-radius: 4px; 
+            margin-top: 1rem; font-size: 1.5rem; font-weight: bold; color: var(--accent-white);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed; bottom: 30px; right: 30px;
+            background: rgba(0,0,0,0.9); border: 1px solid var(--accent-red);
+            color: #fff; padding: 15px 25px; border-radius: 4px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: translateX(150%); transition: transform 0.3s ease;
+            z-index: 1001; font-family: 'Montserrat', sans-serif;
+        }
+        .toast.show { transform: translateX(0); }
+
+        /* Other existing specific styles (Gallery, Home, Rules) */
+        .hero { text-align: center; margin-bottom: 5rem; margin-top: 4rem; }
+        .hero h1 { font-size: 6rem; margin-bottom: 1rem; color: var(--accent-white); text-shadow: 4px 4px 10px #000, 0 0 40px rgba(186, 0, 0, 0.8); letter-spacing: 6px;}
+        .hero p { font-size: 1.4rem; max-width: 900px; margin: 0 auto 3rem auto; text-shadow: 2px 2px 5px #000; font-weight: 300; color: #ddd;}
+        
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1rem; }
         .gallery-item { width: 100%; height: 350px; object-fit: cover; border: 2px solid #222; transition: all 0.4s ease; cursor: pointer; filter: grayscale(40%) contrast(120%);}
         .gallery-item:hover { transform: scale(1.03); filter: grayscale(0%) contrast(110%); border-color: var(--accent-red); z-index: 10; position: relative; box-shadow: 0 15px 40px rgba(186, 0, 0, 0.3);}
 
-        /* Rules Page */
         .rules-container { display: grid; grid-template-columns: 1fr; gap: 2rem; }
         .rule-category { background: rgba(10,5,5,0.8); padding: 2rem; border-left: 4px solid var(--accent-red); margin-bottom: 1rem; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);}
         .rule-item { margin-bottom: 1.5rem; }
         .rule-item h4 { color: var(--accent-white); font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem; letter-spacing: 1px; text-shadow: 1px 1px 2px #000;}
         
-        /* Collapsible Details Styling */
         details { width: 100%; }
         summary { font-size: 2.2rem; color: var(--accent-white); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none; transition: all 0.3s ease; text-shadow: 2px 2px 4px #000;}
         summary::-webkit-details-marker { display: none; }
@@ -172,7 +385,6 @@
         .details-content { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed #444; animation: dropDown 0.4s ease-out; }
         @keyframes dropDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Penal Code Tables */
         .penal-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: rgba(5,0,0,0.9); box-shadow: 0 5px 15px rgba(0,0,0,0.8);}
         .penal-table th, .penal-table td { border: 1px solid #333; padding: 14px; text-align: left; }
         .penal-table th { background: linear-gradient(180deg, #5c0000, #330000); color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; text-shadow: 1px 1px 2px #000;}
@@ -181,7 +393,6 @@
         .penal-table tr:hover { background: rgba(186, 0, 0, 0.15); transition: background 0.2s ease;}
         .penal-highlight { color: var(--accent-red-hover); font-weight: bold; }
 
-        /* Footer */
         footer {
             background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(10, 5, 5, 0.95)); text-align: center; padding: 4rem 2rem;
             border-top: 3px solid var(--accent-red); margin-top: auto; position: relative; z-index: 10;
@@ -211,11 +422,18 @@
             <button onclick="switchPage('factions')" data-page="factions">Factions</button>
             <button onclick="switchPage('rules')" data-page="rules">Rules & Laws</button>
             <button onclick="switchPage('gallery')" data-page="gallery">Gallery</button>
+            <button onclick="switchPage('store')" data-page="store">Store</button>
             <button onclick="switchPage('trailer')" data-page="trailer" style="color: var(--accent-red);">Trailer</button>
         </div>
-        <div class="server-status">
-            <div class="status-dot"></div>
-            CITY AWAKE: 112/128
+        <div class="nav-actions">
+            <button class="cart-btn" onclick="toggleCart()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cartCount" class="cart-count">0</span>
+            </button>
+            <div class="server-status">
+                <div class="status-dot"></div>
+                112/128
+            </div>
         </div>
     </nav>
 
@@ -239,6 +457,32 @@
                 <div class="card">
                     <h3>Dynamic Justice System</h3>
                     <p>Join the LSPD or BCSO. Conduct deep undercover investigations, execute SWAT raids, and experience a fully functional DOJ, courtroom, and Bolingbroke Penitentiary system.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="store" class="page-section">
+            <div class="panel">
+                <div class="panel-header" style="margin-bottom: 2rem;">
+                    <h2>Donation Shop</h2>
+                    <p style="color: #888;">Boost your FiveM gameplay. All transactions secure via Tebex.</p>
+                </div>
+                
+                <div class="store-filters">
+                    <button class="filter-btn active" data-filter="All">All</button>
+                    <button class="filter-btn" data-filter="VIP">VIP Tiers</button>
+                    <button class="filter-btn" data-filter="Vehicles">Vehicles</button>
+                    <button class="filter-btn" data-filter="Clothing">Cosmetics</button>
+                    <button class="filter-btn" data-filter="Weapons">Weapons</button>
+                </div>
+
+                <div id="productsGrid" class="grid-4">
+                    </div>
+                
+                <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #333; text-align: center;">
+                    <p style="color: #777; font-size: 0.85rem; max-width: 800px; margin: 0 auto;">
+                        By purchasing through this shop, you agree that all sales are final. In-game item delivery may take up to 20 minutes. Prices are in USD. Not affiliated with Rockstar or FiveM official; this is a community-run server. For refunds or disputes, contact our Discord support team.
+                    </p>
                 </div>
             </div>
         </div>
@@ -336,7 +580,6 @@
                 </div>
 
                 <div class="rules-container">
-                    
                     <div class="rule-category" style="border-left-color: #3b82f6;">
                         <h3 style="margin-bottom: 1.5rem; font-size: 2.5rem; color: #3b82f6; text-shadow: 1px 1px 2px #000;">General Roleplay (OOC)</h3>
                         <div class="rule-item">
@@ -468,8 +711,36 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    <div id="cartModal" class="modal-overlay" onclick="handleModalClick(event)">
+        <div class="cart-modal">
+            <button class="close-cart" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 10px;">Shopping Cart</h2>
+            
+            <div id="cartItems"></div>
+            
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cartSubtotal" style="font-weight: bold;">$0.00</span>
+                </div>
+                <div class="summary-row" style="color: #aaa; font-size: 0.9rem;">
+                    <span>Tax (estimated):</span>
+                    <span id="cartTax">$0.00</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total:</span>
+                    <span id="cartTotal" style="color: var(--accent-red-hover);">$0.00</span>
+                </div>
+            </div>
+            
+            <button onclick="checkout()" class="btn" style="width: 100%; margin-top: 2rem; background: #2ecc71; border-color: #27ae60; color: #000;">Proceed to Checkout</button>
+            <p style="text-align: center; font-size: 0.8rem; color: #666; margin-top: 1rem;">Secure checkout via Tebex • All transactions encrypted</p>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Item added to cart!</div>
 
     <footer>
         <h2 style="font-size: 3rem; margin-bottom: 1rem; font-family: 'Bebas Neue', sans-serif;">BLOODLINE <span style="color: var(--accent-red)">RP</span></h2>
@@ -478,48 +749,217 @@
     </footer>
 
     <script>
-        // Set all pages to use the rose image
+        // --- PAGE NAVIGATION LOGIC ---
         const backgrounds = {
-            'home': "url('rose.jpg')",
-            'lore': "url('rose.jpg')",
-            'factions': "url('rose.jpg')",
-            'rules': "url('rose.jpg')",
-            'gallery': "url('rose.jpg')",
-            'trailer': "url('rose.jpg')" 
+            'home': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')",
+            'lore': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')",
+            'factions': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')",
+            'rules': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')",
+            'gallery': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')",
+            'store': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')",
+            'trailer': "url('Gemini_Generated_Image_pyr2oupyr2oupyr2.png')" 
         };
 
-        // Simplified, robust page switching logic
         function switchPage(pageId) {
-            // 1. Hide all pages
             const pages = document.querySelectorAll('.page-section');
             pages.forEach(page => page.classList.remove('active'));
 
-            // 2. Show the targeted page
             const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
+            if (targetPage) targetPage.classList.add('active');
 
-            // 3. Update active states on navigation buttons
             const navButtons = document.querySelectorAll('.nav-links button');
             navButtons.forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.getAttribute('data-page') === pageId) {
-                    btn.classList.add('active');
-                }
+                if (btn.getAttribute('data-page') === pageId) btn.classList.add('active');
             });
 
-            // 4. Update the background image safely
             const bgLayer = document.getElementById('bg-layer');
             if (bgLayer && backgrounds[pageId]) {
                 bgLayer.style.backgroundImage = backgrounds[pageId];
             }
             
-            // 5. Scroll back to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Audio functionality removed
+        // --- STORE & CART LOGIC ---
+        const products = [
+            { id: 1, name: 'VIP Gold Tier', category: 'VIP', price: 19.99, desc: 'Monthly perks + priority queue', img: 'https://images.unsplash.com/photo-1528747045269-390fe33c19d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 2, name: 'VIP Diamond Tier', category: 'VIP', price: 39.99, desc: 'Gold perks + exclusive spawns', img: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 3, name: 'VIP Platinum Tier', category: 'VIP', price: 79.99, desc: 'All perks + custom commands', img: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 4, name: 'Elegance Supercar', category: 'Vehicles', price: 129.99, desc: 'High-speed supercar', img: 'https://images.unsplash.com/photo-1517949908112-6f29272ae44f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 5, name: 'Phantom Motorcycle', category: 'Vehicles', price: 79.99, desc: 'Fast bike with neon', img: 'https://images.unsplash.com/photo-1517949768931-4bd8c663e1e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 6, name: 'Luxe SUV', category: 'Vehicles', price: 99.99, desc: 'Premium family vehicle', img: 'https://images.unsplash.com/photo-1579818170900-c953055022c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 7, name: 'Bloodline Jacket', category: 'Clothing', price: 14.99, desc: 'Custom glowing jacket', img: 'https://images.unsplash.com/photo-1600180758895-96bb2c13d9f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 8, name: 'Shimmer Sneakers', category: 'Clothing', price: 9.99, desc: 'Glowing shoes', img: 'https://images.unsplash.com/photo-1528701800489-20e8b12fa7b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 9, name: 'Neon Hoodie', category: 'Clothing', price: 12.99, desc: 'Tech-wear hoodie', img: 'https://images.unsplash.com/photo-1556821552-5f63b9c9e1b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 10, name: 'Shadow Blade', category: 'Weapons', price: 12.99, desc: 'Rare melee weapon', img: 'https://images.unsplash.com/photo-1513451713350-dee890297c4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 11, name: 'Combat Rifle', category: 'Weapons', price: 26.99, desc: 'Precision rifle skin', img: 'https://images.unsplash.com/photo-1515591792478-0ba93d67ae0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 12, name: 'Plasma Pistol', category: 'Weapons', price: 19.99, desc: 'Sci-fi weapon skin', img: 'https://images.unsplash.com/photo-1566961914551-87f50551b225?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' }
+        ];
+
+        let cart = [];
+        const productsGrid = document.getElementById('productsGrid');
+        const cartCount = document.getElementById('cartCount');
+        const toast = document.getElementById('toast');
+
+        function renderProducts(filter = 'All') {
+            productsGrid.innerHTML = '';
+            const filtered = filter === 'All' ? products : products.filter(p => p.category === filter);
+            
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'store-card';
+                card.innerHTML = `
+                    <div class="product-img-wrapper">
+                        <img src="${product.img}" alt="${product.name}" class="product-img" loading="lazy" />
+                        <div class="product-badge">${product.category}</div>
+                    </div>
+                    <div class="store-card-content">
+                        <h4 style="font-size: 1.6rem; font-family: 'Bebas Neue', sans-serif; color: var(--accent-white); letter-spacing: 1px; margin-bottom: 5px;">${product.name}</h4>
+                        <p style="color: #999; font-size: 0.85rem; line-height: 1.4;">${product.desc}</p>
+                        
+                        <div class="store-card-footer">
+                            <span style="color: var(--accent-red-hover); font-weight: bold; font-size: 1.4rem;">$${product.price.toFixed(2)}</span>
+                            <button onclick="addToCart(${product.id})" class="store-add-btn">
+                                <i class="fa-solid fa-cart-plus"></i> Add
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsGrid.appendChild(card);
+            });
+        }
+
+        function addToCart(productId) {
+            const item = products.find(p => p.id === productId);
+            if (!item) return;
+            const cartItem = cart.find(c => c.id === productId);
+            if (cartItem) {
+                cartItem.quantity += 1;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+            updateCartCount();
+            showToast(`${item.name} added to cart!`);
+            if(document.getElementById('cartModal').classList.contains('show')) {
+                renderCart();
+            }
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function updateCartCount() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalCount;
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            if (modal.classList.contains('show')) {
+                modal.classList.remove('show');
+            } else {
+                modal.classList.add('show');
+                renderCart();
+            }
+        }
+
+        function handleModalClick(evt) {
+            if (evt.target.id === 'cartModal') toggleCart();
+        }
+
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartTax = document.getElementById('cartTax');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #888; padding: 2rem 0;">Your cart is empty. Start shopping!</p>';
+                cartSubtotal.textContent = '$0.00';
+                cartTax.textContent = '$0.00';
+                cartTotal.textContent = '$0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                const row = document.createElement('div');
+                row.className = 'cart-item';
+                row.innerHTML = `
+                    <div>
+                        <h5 style="color: var(--accent-white); font-size: 1.1rem; margin-bottom: 5px;">${item.name}</h5>
+                        <p style="color: #aaa; font-size: 0.9rem; margin: 0;">${item.quantity} × $${item.price.toFixed(2)} = <span style="color: var(--accent-red-hover); font-weight: bold;">$${itemTotal.toFixed(2)}</span></p>
+                    </div>
+                    <div class="qty-controls">
+                        <button onclick="changeQty(${item.id}, -1)" class="qty-btn">−</button>
+                        <span style="font-weight: bold; width: 20px; text-align: center;">${item.quantity}</span>
+                        <button onclick="changeQty(${item.id}, 1)" class="qty-btn">+</button>
+                    </div>
+                `;
+                cartItems.appendChild(row);
+            });
+
+            const tax = subtotal * 0.1;
+            const total = subtotal + tax;
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            cartTax.textContent = `$${tax.toFixed(2)}`;
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(c => c.id === productId);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                const idx = cart.findIndex(c => c.id === productId);
+                cart.splice(idx, 1);
+            }
+            updateCartCount();
+            renderCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Close the cart modal
+            document.getElementById('cartModal').classList.remove('show');
+            
+            // Route user directly to the Store tab
+            switchPage('store');
+
+            // Example integration logic for Tebex
+            // 1. Send cart data to your server/Tebex Headless API here to get a basket ID
+            // 2. Open Tebex popup overlay using Tebex.js OR redirect
+            
+            alert('Initiating Tebex Checkout...\n\n(Note for Dev: To use Tebex.js popup overlay, replace this alert with `Tebex.checkout({ ident: "BASKET_ID" });`)');
+            
+            // Standard Webstore Fallback Redirect:
+            window.open('https://your-bloodline-rp-store.tebex.io', '_blank');
+        }
+
+        // Setup filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderProducts(btn.dataset.filter);
+            });
+        });
+
+        // Initialize Store
+        renderProducts();
+
     </script>
 </body>
 </html>
